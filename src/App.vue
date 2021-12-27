@@ -1,7 +1,7 @@
 <template>
 
     <!-- Title Bar -->
-    <header class="fixed w-full h-12 bg-primary text-white flex items-center justify-center" style="-webkit-app-region: drag; -webkit-user-select: none;">
+    <header class="fixed w-full z-50 h-12 bg-primary text-white flex items-center justify-center" style="-webkit-app-region: drag; -webkit-user-select: none;">
 
         <!-- Title -->
         <div>
@@ -32,7 +32,7 @@
 
                 <!-- Dropdown -->
                 <Dropdown class="w-96" v-show="dSystemNotificationsOpen">
-                    <div v-if="systemNotifications.length === 0" class="text-gray-500 text-sm italic">
+                    <div v-if="systemNotifications.length === 0" class="text-gray-500 text-sm text-center italic">
                         {{ $t('titleBar.systemNotifications.empty') }}
                     </div>
                     <div v-else>
@@ -52,31 +52,41 @@
     </header>
 
     <!-- Application -->
-    <main class="bg-white flex pt-12">
+    <main class="bg-white pt-12">
 
         <!-- Sidebar -->
-        <aside class="p-4 lg:p-5 xl:p-8 w-56 bg-gray-100 border-r">
-            <ul>
-                <SidebarItem>{{ $t('sidebar.dashboard') }}</SidebarItem>
-            </ul>
+        <aside class="fixed top-12 bottom-0 p-5 lg:p-6 xl:p-10 w-56 bg-gray-100 border-r overflow-scroll flex flex-col justify-between">
+            <div>
+                <ul>
+                    <SidebarItem>{{ $t('sidebar.dashboard') }}</SidebarItem>
+                </ul>
 
-            <ul>
-                <SidebarItem>{{ $t('sidebar.devices') }}</SidebarItem>
-                <SidebarItem>{{ $t('sidebar.rooms') }}</SidebarItem>
-                <SidebarItem>{{ $t('sidebar.functions') }}</SidebarItem>
-                <SidebarItem>{{ $t('sidebar.favorites') }}</SidebarItem>
-                <SidebarItem>{{ $t('sidebar.sysvars') }}</SidebarItem>
-            </ul>
+                <ul>
+                    <SidebarItem>{{ $t('sidebar.devices') }}</SidebarItem>
+                    <SidebarItem>{{ $t('sidebar.rooms') }}</SidebarItem>
+                    <SidebarItem>{{ $t('sidebar.functions') }}</SidebarItem>
+                    <SidebarItem>{{ $t('sidebar.favorites') }}</SidebarItem>
+                    <SidebarItem>{{ $t('sidebar.sysvars') }}</SidebarItem>
+                </ul>
+            </div>
+
+            <!-- Trailing sidebar actions -->
+            <div class="mt-12">
+                <ul>
+                    <SidebarItem>{{ $t('sidebar.settings') }}</SidebarItem>
+                </ul>
+                <div class="mt-4 text-sm text-gray-400">Version 1.0</div>
+            </div>
         </aside>
 
         <!-- Content -->
-        <div class="p-4 lg:p-5 xl:p-8 min-h-[100vh] flex flex-col justify-between">
+        <div class="absolute bg-white left-56 right-0 p-4 lg:p-5 xl:p-8 flex flex-col justify-between bottom-0 top-12">
             <div>
                 Content
             </div>
 
             <!-- Footer -->
-            <footer class="border-t pt-2 text-xs text-gray-500">
+            <footer class="border-t pt-2 text-xs text-gray-500 mt-12">
                 {{ $t('footer.apiVersion', { version: apiVersion }) }}
             </footer>
         </div>
@@ -110,7 +120,7 @@ export default {
         hasClearableSystemNotifications () {
             return this.hasSystemNotifications() && this.systemNotifications
                 .map(notif => notif.isClearable())
-                .reduce((previous, current) => previous && current);
+                .reduce((previous, current) => previous || current);
         },
         async clearSystemNotifications () {
             await xmlapi.clearSystemNotifications();

@@ -19,7 +19,8 @@ async function createWindow() {
     const win = new BrowserWindow({
         width: 1280,
         height: 720,
-        titleBarStyle: 'hidden',
+        titleBarStyle: 'hiddenInset',
+        trafficLightPosition: { x: 15, y: 15 },
         titleBarOverlay: true,
         webPreferences: {
 

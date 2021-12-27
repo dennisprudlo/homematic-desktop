@@ -29,6 +29,8 @@ export default class SystemNotification {
     getType () {
         switch (this.type) {
             case 'CONFIG_PENDING': return t('systemNotifications.types.configPending');
+            case 'UNREACH': return t('systemNotifications.types.unreach');
+            case 'STICKY_UNREACH': return t('systemNotifications.types.stickyUnreach');
         }
 
         return t('general.unknown');
@@ -39,6 +41,6 @@ export default class SystemNotification {
      * @returns Whether the notification type can be cleared
      */
     isClearable () {
-        return [  ].includes(this.type)
+        return [ 'STICKY_UNREACH' ].includes(this.type)
     }
 }

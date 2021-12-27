@@ -14,7 +14,9 @@ export default {
 
     systemNotifications: {
         types: {
-            configPending: 'Configuration data ready for transmission'
+            configPending: 'Configuration data ready for transmission',
+            unreach: 'Device communication disturbed',
+            stickyUnreach: 'Device communication has been disturbed'
         }
     },
 
@@ -25,6 +27,7 @@ export default {
         functions: 'Functions',
         favorites: 'Favorites',
         sysvars: 'System variables',
+        settings: 'Settings'
     },
 
     footer: {

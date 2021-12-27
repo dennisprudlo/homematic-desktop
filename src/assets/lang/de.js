@@ -14,7 +14,9 @@ export default {
 
     systemNotifications: {
         types: {
-            configPending: 'Konfigurationsdaten für die Übertragung bereit'
+            configPending: 'Konfigurationsdaten für die Übertragung bereit',
+            unreach: 'Gerätekommunikation gestört',
+            stickyUnreach: 'Gerätekommunikation wurde gestört'
         }
     },
 
@@ -25,6 +27,7 @@ export default {
         functions: 'Gewerke',
         favorites: 'Favoriten',
         sysvars: 'Systemvariablen',
+        settings: 'Einstellungen'
     },
 
     footer: {
