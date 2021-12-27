@@ -27,7 +27,8 @@ export default {
         functions: 'Gewerke',
         favorites: 'Favoriten',
         sysvars: 'Systemvariablen',
-        settings: 'Einstellungen'
+        settings: 'Einstellungen',
+        version: 'Version {version}'
     },
 
     footer: {

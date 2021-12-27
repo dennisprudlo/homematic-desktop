@@ -15,7 +15,7 @@
         <div class="absolute right-5 flex items-center space-x-2">
 
             <!-- Notifications -->
-            <div>
+            <div v-if="systemNotificationsLoaded">
                 <TitlebarButton v-on:click="dSystemNotificationsOpen = !dSystemNotificationsOpen">
                     <div class="flex items-center text-sm space-x-2">
 
@@ -75,7 +75,7 @@
                 <ul>
                     <SidebarItem>{{ $t('sidebar.settings') }}</SidebarItem>
                 </ul>
-                <div class="mt-4 text-sm text-gray-400">Version 1.0</div>
+                <div class="mt-4 text-sm text-gray-400">{{ $t('sidebar.version', { version: applicationVersion }) }}</div>
             </div>
         </aside>
 
@@ -99,6 +99,7 @@ import Dropdown from './components/Dropdown.vue'
 import Button from './components/Button.vue'
 import TitlebarButton from './components/TitlebarButton.vue'
 import xmlapi from './xmlapi/api.js'
+const packageJson = require('../package.json');
 
 export default {
     components: { SidebarItem, TitlebarButton, Dropdown, Button },
@@ -106,12 +107,17 @@ export default {
         return {
             apiVersion: '',
             systemNotifications: [],
-            dSystemNotificationsOpen: false
+            systemNotificationsLoaded: false,
+            dSystemNotificationsOpen: false,
+            applicationVersion: packageJson.version
         }
     },
-    async created () {
-        this.apiVersion = await xmlapi.version();
-        this.systemNotifications = await xmlapi.systemNotifications();
+    created () {
+        this.apiVersion = xmlapi.version().then(version => this.apiVersion = version);
+        this.systemNotifications = xmlapi.systemNotifications().then(notifications => {
+            this.systemNotifications = notifications;
+            this.systemNotificationsLoaded = true;
+        });
     },
     methods: {
         hasSystemNotifications () {

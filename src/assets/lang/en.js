@@ -27,7 +27,8 @@ export default {
         functions: 'Functions',
         favorites: 'Favorites',
         sysvars: 'System variables',
-        settings: 'Settings'
+        settings: 'Settings',
+        version: 'Version {version}'
     },
 
     footer: {
