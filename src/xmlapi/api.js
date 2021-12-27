@@ -45,6 +45,13 @@ class XMLAPI {
             )
         });
     }
+
+    /**
+     * Clears the system notifications
+     */
+    async clearSystemNotifications () {
+        return fetch(this._url('systemNotificationClear'));
+    }
 }
 
 const xmlapi = new XMLAPI;
