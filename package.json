@@ -2,6 +2,12 @@
   "name": "homematic-desktop",
   "version": "0.1.0",
   "private": true,
+  "description": "An electron interface for the homematic xml-api add-on.",
+  "author": {
+    "name": "Dennis Prudlo",
+    "email": "mail@dennisprudlo.com",
+    "url": "https://dennisprudlo.com"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
