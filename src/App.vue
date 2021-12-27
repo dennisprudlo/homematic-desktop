@@ -55,7 +55,7 @@
     <main class="bg-white pt-12">
 
         <!-- Sidebar -->
-        <aside class="fixed top-12 bottom-0 p-5 lg:p-6 xl:p-10 w-56 bg-gray-100 border-r overflow-scroll flex flex-col justify-between">
+        <aside class="fixed top-12 bottom-0 p-5 xl:p-8 w-56 bg-gray-100 border-r overflow-scroll flex flex-col justify-between">
             <div>
                 <ul>
                     <SidebarItem>{{ $t('sidebar.dashboard') }}</SidebarItem>
@@ -75,7 +75,9 @@
                 <ul>
                     <SidebarItem>{{ $t('sidebar.settings') }}</SidebarItem>
                 </ul>
-                <div class="mt-4 text-sm text-gray-400">{{ $t('sidebar.version', { version: applicationVersion }) }}</div>
+                <div class="mt-4 text-sm text-gray-400">
+                    {{ $t('sidebar.version', { version: applicationVersion }) }}
+                </div>
             </div>
         </aside>
 

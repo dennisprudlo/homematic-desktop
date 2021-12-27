@@ -19,6 +19,7 @@ async function createWindow() {
     const win = new BrowserWindow({
         width: 1280,
         height: 720,
+        title: 'Homematic Desktop',
         titleBarStyle: 'hiddenInset',
         trafficLightPosition: { x: 15, y: 15 },
         titleBarOverlay: true,
