@@ -1,3 +1,4 @@
+import SystemNotification from "./models/system-notification";
 import XmlParser from "./xml-parser";
 
 /**
@@ -27,9 +28,22 @@ class XMLAPI {
      */
     async version () {
         const response = await fetch(this._url('version'));
-        const xml = await response.text();
-        const parser = new XmlParser(xml);
+        const parser = new XmlParser(await response.text());
         return parser.document.documentElement.innerHTML;
+    }
+
+    async systemNotifications () {
+        const response = await fetch(this._url('systemNotification'));
+        const parser = new XmlParser(await response.text());
+        const notifications = parser.document.documentElement.querySelectorAll('notification');
+        return Array.from(notifications).map(node => {
+            return new SystemNotification(
+                node.getAttribute('ise_id'),
+                node.getAttribute('name'),
+                node.getAttribute('type'),
+                node.getAttribute('timestamp')
+            )
+        });
     }
 }
 
