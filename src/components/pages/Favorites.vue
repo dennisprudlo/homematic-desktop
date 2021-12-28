@@ -1,9 +1,11 @@
 <template>
-    Favorites
+    <Title>{{ $t('sidebar.favorites') }}</Title>
 </template>
 
 <script>
-export default {
+import Title from '../Title.vue'
 
+export default {
+    components: { Title }
 }
 </script>

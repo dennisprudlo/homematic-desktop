@@ -1,9 +1,11 @@
 <template>
-    Overview
+    <Title>{{ $t('sidebar.overview') }}</Title>
 </template>
 
 <script>
-export default {
+import Title from '../Title.vue'
 
+export default {
+    components: { Title }
 }
 </script>

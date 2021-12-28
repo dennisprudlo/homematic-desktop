@@ -57,26 +57,26 @@
         <!-- Sidebar -->
         <aside class="fixed top-12 bottom-0 p-5 xl:p-8 w-56 bg-gray-100 border-r overflow-scroll flex flex-col justify-between">
             <div class="space-y-4">
-                <ul>
+                <ul class="space-y-1">
                     <SidebarItem page="overview">{{ $t('sidebar.overview') }}</SidebarItem>
                 </ul>
 
                 <!-- Status and control -->
                 <div>
                     <h4 class="uppercase text-gray-400 font-semibold text-sm">{{ $t('sidebar.statusAndControl') }}</h4>
-                    <ul>
+                    <ul class="space-y-1">
                         <SidebarItem page="devices">{{ $t('sidebar.devices') }}</SidebarItem>
                         <SidebarItem page="rooms">{{ $t('sidebar.rooms') }}</SidebarItem>
                         <SidebarItem page="functions">{{ $t('sidebar.functions') }}</SidebarItem>
                         <SidebarItem page="favorites">{{ $t('sidebar.favorites') }}</SidebarItem>
-                        <SidebarItem page="system-variables">{{ $t('sidebar.sysvars') }}</SidebarItem>
+                        <SidebarItem page="system-variables">{{ $t('sidebar.systemVariables') }}</SidebarItem>
                     </ul>
                 </div>
             </div>
 
             <!-- Trailing sidebar actions -->
             <div class="mt-12">
-                <ul>
+                <ul class="space-y-1">
                     <SidebarItem page="settings">{{ $t('sidebar.settings') }}</SidebarItem>
                 </ul>
                 <div class="mt-4 text-sm text-gray-400">

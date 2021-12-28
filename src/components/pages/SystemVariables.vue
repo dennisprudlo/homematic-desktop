@@ -1,9 +1,11 @@
 <template>
-    System Variables
+    <Title>{{ $t('sidebar.systemVariables') }}</Title>
 </template>
 
 <script>
-export default {
+import Title from '../Title.vue'
 
+export default {
+    components: { Title }
 }
 </script>

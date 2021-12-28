@@ -1,9 +1,11 @@
 <template>
-    Devices
+    <Title>{{ $t('sidebar.devices') }}</Title>
 </template>
 
 <script>
-export default {
+import Title from '../Title.vue'
 
+export default {
+    components: { Title }
 }
 </script>

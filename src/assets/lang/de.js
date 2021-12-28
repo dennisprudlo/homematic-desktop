@@ -28,7 +28,7 @@ export default {
         rooms: 'Räume',
         functions: 'Gewerke',
         favorites: 'Favoriten',
-        sysvars: 'Systemvariablen',
+        systemVariables: 'Systemvariablen',
         settings: 'Einstellungen',
         version: 'Version {version}'
     },
