@@ -30,14 +30,14 @@
 
                 <!-- Dropdown -->
                 <Dropdown class="w-96" v-show="dSystemNotificationsOpen">
-                    <div v-if="systemNotifications.length === 0" class="text-gray-500 text-sm text-center italic py-4">
+                    <div v-if="systemNotifications.length === 0" class="text-gray-400 text-sm text-center italic py-4">
                         {{ $t('titleBar.systemNotifications.empty') }}
                     </div>
                     <div v-else>
                         <div class="divide-y">
                             <div v-for="systemNotification in systemNotifications" :key="systemNotification.iseId" class="text-left flex flex-col text-sm py-3 first:pt-0 last:pb-0">
                                 <div>{{ systemNotification.name }}</div>
-                                <div class="text-xs text-gray-500 italic mt-1">{{ systemNotification.getType() }} - {{ systemNotification.datetime.fromNow() }}</div>
+                                <div class="text-xs text-gray-400 italic mt-1">{{ systemNotification.getType() }} - {{ systemNotification.datetime.fromNow() }}</div>
                             </div>
                         </div>
 
@@ -100,7 +100,7 @@
             </div>
 
             <!-- Footer -->
-            <footer class="border-t pt-2 text-xs text-gray-500 mt-12">
+            <footer class="border-t pt-2 text-xs text-gray-400 mt-12">
                 {{ $t('footer.apiVersion', { version: apiVersion }) }}
             </footer>
         </div>
