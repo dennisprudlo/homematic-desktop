@@ -56,18 +56,22 @@
 
         <!-- Sidebar -->
         <aside class="fixed top-12 bottom-0 p-5 xl:p-8 w-56 bg-gray-100 border-r overflow-scroll flex flex-col justify-between">
-            <div>
+            <div class="space-y-4">
                 <ul>
-                    <SidebarItem>{{ $t('sidebar.dashboard') }}</SidebarItem>
+                    <SidebarItem>{{ $t('sidebar.overview') }}</SidebarItem>
                 </ul>
 
-                <ul>
-                    <SidebarItem>{{ $t('sidebar.devices') }}</SidebarItem>
-                    <SidebarItem>{{ $t('sidebar.rooms') }}</SidebarItem>
-                    <SidebarItem>{{ $t('sidebar.functions') }}</SidebarItem>
-                    <SidebarItem>{{ $t('sidebar.favorites') }}</SidebarItem>
-                    <SidebarItem>{{ $t('sidebar.sysvars') }}</SidebarItem>
-                </ul>
+                <!-- Status and control -->
+                <div>
+                    <h4 class="uppercase text-gray-400 font-semibold text-sm">{{ $t('sidebar.statusAndControl') }}</h4>
+                    <ul>
+                        <SidebarItem>{{ $t('sidebar.devices') }}</SidebarItem>
+                        <SidebarItem>{{ $t('sidebar.rooms') }}</SidebarItem>
+                        <SidebarItem>{{ $t('sidebar.functions') }}</SidebarItem>
+                        <SidebarItem>{{ $t('sidebar.favorites') }}</SidebarItem>
+                        <SidebarItem>{{ $t('sidebar.sysvars') }}</SidebarItem>
+                    </ul>
+                </div>
             </div>
 
             <!-- Trailing sidebar actions -->

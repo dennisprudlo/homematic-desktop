@@ -21,7 +21,9 @@ export default {
     },
 
     sidebar: {
-        dashboard: 'Dashboard',
+        overview: 'Overview',
+
+        statusAndControl: 'Status and Control',
         devices: 'Devices',
         rooms: 'Rooms',
         functions: 'Functions',

@@ -8,7 +8,7 @@ module.exports = {
         extend: {
             colors: {
                 primary: {
-                    DEFAULT: colors.blue['700'],
+                    DEFAULT: colors.blue['800'],
                     ...colors.blue
                 }
             },
