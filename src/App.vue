@@ -86,7 +86,7 @@
         </aside>
 
         <!-- Content -->
-        <div class="absolute bg-white left-56 right-0 p-4 lg:p-5 xl:p-8 flex flex-col justify-between bottom-0 top-12">
+        <div class="absolute bg-white left-56 right-0 p-5 xl:p-8 flex flex-col justify-between bottom-0 top-12">
             <div>
                 <keep-alive>
                     <component :is="currentComponent"></component>
