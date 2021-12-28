@@ -4,11 +4,9 @@
     <header class="fixed w-full z-50 h-12 bg-primary text-white flex items-center justify-center" style="-webkit-app-region: drag; -webkit-user-select: none;">
 
         <!-- Title -->
-        <div>
-            <span class="font-light">
-                h<span class="hidden sm:inline">ome</span>m<span class="hidden sm:inline">atic</span>
-            </span>
-            <span class="font-semibold">desktop</span>
+        <div class="flex items-center">
+            <span class="font-light">home</span><span class="font-semibold">matic</span>
+            <span class="bg-white/30 rounded px-1 ml-1 text-[10px]">mac</span>
         </div>
 
         <!-- Actions -->
@@ -32,7 +30,7 @@
 
                 <!-- Dropdown -->
                 <Dropdown class="w-96" v-show="dSystemNotificationsOpen">
-                    <div v-if="systemNotifications.length === 0" class="text-gray-500 text-sm text-center italic">
+                    <div v-if="systemNotifications.length === 0" class="text-gray-500 text-sm text-center italic py-4">
                         {{ $t('titleBar.systemNotifications.empty') }}
                     </div>
                     <div v-else>
@@ -55,21 +53,29 @@
     <main class="bg-white pt-12">
 
         <!-- Sidebar -->
-        <aside class="fixed top-12 bottom-0 p-5 xl:p-8 w-56 bg-gray-100 border-r overflow-scroll flex flex-col justify-between">
-            <div class="space-y-4">
+        <aside class="fixed top-12 bottom-0 p-5 xl:p-8 w-56 bg-gray-100 border-r overflow-scroll flex flex-col justify-between select-none">
+            <div class="space-y-6">
                 <ul class="space-y-1">
                     <SidebarItem page="overview">{{ $t('sidebar.overview') }}</SidebarItem>
                 </ul>
 
                 <!-- Status and control -->
                 <div>
-                    <h4 class="uppercase text-gray-400 font-semibold text-sm">{{ $t('sidebar.statusAndControl') }}</h4>
+                    <h4 class="uppercase text-gray-400 font-semibold text-sm mb-1">{{ $t('sidebar.statusAndControl') }}</h4>
                     <ul class="space-y-1">
                         <SidebarItem page="devices">{{ $t('sidebar.devices') }}</SidebarItem>
                         <SidebarItem page="rooms">{{ $t('sidebar.rooms') }}</SidebarItem>
                         <SidebarItem page="functions">{{ $t('sidebar.functions') }}</SidebarItem>
                         <SidebarItem page="favorites">{{ $t('sidebar.favorites') }}</SidebarItem>
                         <SidebarItem page="system-variables">{{ $t('sidebar.systemVariables') }}</SidebarItem>
+                    </ul>
+                </div>
+
+                <!-- Extensions -->
+                <div>
+                    <h4 class="uppercase text-gray-400 font-semibold text-sm mb-1">{{ $t('sidebar.extensions') }}</h4>
+                    <ul class="space-y-1">
+                        <SidebarItem page="ext-dreambox">{{ $t('sidebar.dreambox') }}</SidebarItem>
                     </ul>
                 </div>
             </div>

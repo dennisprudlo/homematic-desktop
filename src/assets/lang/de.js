@@ -30,7 +30,10 @@ export default {
         favorites: 'Favoriten',
         systemVariables: 'Systemvariablen',
         settings: 'Einstellungen',
-        version: 'Version {version}'
+        version: 'Version {version}',
+
+        extensions: 'Extensions',
+        dreambox: 'Dreambox'
     },
 
     footer: {

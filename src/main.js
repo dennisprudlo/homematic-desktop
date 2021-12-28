@@ -11,6 +11,7 @@ import Rooms from './components/pages/Rooms'
 import Functions from './components/pages/Functions'
 import Favorites from './components/pages/Favorites'
 import SystemVariables from './components/pages/SystemVariables'
+import ExtensionDreambox from './components/pages/ExtensionDreambox'
 import Settings from './components/pages/Settings'
 
 app.component('page-overview', Overview);
@@ -19,6 +20,7 @@ app.component('page-rooms', Rooms);
 app.component('page-functions', Functions);
 app.component('page-favorites', Favorites);
 app.component('page-system-variables', SystemVariables);
+app.component('page-ext-dreambox', ExtensionDreambox);
 app.component('page-settings', Settings);
 
 app.mount('#app');
