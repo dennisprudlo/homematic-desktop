@@ -58,18 +58,18 @@
         <aside class="fixed top-12 bottom-0 p-5 xl:p-8 w-56 bg-gray-100 border-r overflow-scroll flex flex-col justify-between">
             <div class="space-y-4">
                 <ul>
-                    <SidebarItem>{{ $t('sidebar.overview') }}</SidebarItem>
+                    <SidebarItem page="overview">{{ $t('sidebar.overview') }}</SidebarItem>
                 </ul>
 
                 <!-- Status and control -->
                 <div>
                     <h4 class="uppercase text-gray-400 font-semibold text-sm">{{ $t('sidebar.statusAndControl') }}</h4>
                     <ul>
-                        <SidebarItem>{{ $t('sidebar.devices') }}</SidebarItem>
-                        <SidebarItem>{{ $t('sidebar.rooms') }}</SidebarItem>
-                        <SidebarItem>{{ $t('sidebar.functions') }}</SidebarItem>
-                        <SidebarItem>{{ $t('sidebar.favorites') }}</SidebarItem>
-                        <SidebarItem>{{ $t('sidebar.sysvars') }}</SidebarItem>
+                        <SidebarItem page="devices">{{ $t('sidebar.devices') }}</SidebarItem>
+                        <SidebarItem page="rooms">{{ $t('sidebar.rooms') }}</SidebarItem>
+                        <SidebarItem page="functions">{{ $t('sidebar.functions') }}</SidebarItem>
+                        <SidebarItem page="favorites">{{ $t('sidebar.favorites') }}</SidebarItem>
+                        <SidebarItem page="system-variables">{{ $t('sidebar.sysvars') }}</SidebarItem>
                     </ul>
                 </div>
             </div>
@@ -77,7 +77,7 @@
             <!-- Trailing sidebar actions -->
             <div class="mt-12">
                 <ul>
-                    <SidebarItem>{{ $t('sidebar.settings') }}</SidebarItem>
+                    <SidebarItem page="settings">{{ $t('sidebar.settings') }}</SidebarItem>
                 </ul>
                 <div class="mt-4 text-sm text-gray-400">
                     {{ $t('sidebar.version', { version: applicationVersion }) }}
@@ -88,7 +88,9 @@
         <!-- Content -->
         <div class="absolute bg-white left-56 right-0 p-4 lg:p-5 xl:p-8 flex flex-col justify-between bottom-0 top-12">
             <div>
-                Content
+                <keep-alive>
+                    <component :is="currentComponent"></component>
+                </keep-alive>
             </div>
 
             <!-- Footer -->
@@ -115,7 +117,8 @@ export default {
             systemNotifications: [],
             systemNotificationsLoaded: false,
             dSystemNotificationsOpen: false,
-            applicationVersion: packageJson.version
+            applicationVersion: packageJson.version,
+            currentPage: 'overview'
         }
     },
     created () {
@@ -124,6 +127,11 @@ export default {
             this.systemNotifications = notifications;
             this.systemNotificationsLoaded = true;
         });
+    },
+    computed: {
+        currentComponent() {
+            return 'page-' + this.currentPage
+        }
     },
     methods: {
         hasSystemNotifications () {
