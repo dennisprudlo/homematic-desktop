@@ -3,7 +3,7 @@
 
     <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-4">
         <a v-on:click="selectFavorite(favorite)" class="cursor-pointer block group" v-for="favorite in favorites" :key="favorite.iseId">
-            <Panel class="group-hover:text-primary group-hover:border-primary" :class="{ 'text-primary': currentFavorite === favorite.iseId, 'border-primary': currentFavorite === favorite.iseId }">
+            <Panel type="small" class="group-hover:text-primary group-hover:border-primary group-hover:bg-primary-50" :class="{ 'text-primary border-primary bg-primary-50': currentFavorite === favorite.iseId }">
                 <h3 class="font-semibold">{{ favorite.name }}</h3>
             </Panel>
         </a>

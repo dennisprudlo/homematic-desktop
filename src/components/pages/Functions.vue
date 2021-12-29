@@ -3,7 +3,7 @@
 
     <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-4">
         <a v-on:click="selectFunction(func)" class="cursor-pointer block group" v-for="func in functions" :key="func.iseId">
-            <Panel class="group-hover:text-primary group-hover:border-primary" :class="{ 'text-primary': currentFunction === func.iseId, 'border-primary': currentFunction === func.iseId }">
+            <Panel type="small" class="group-hover:text-primary group-hover:border-primary group-hover:bg-primary-50" :class="{ 'text-primary border-primary bg-primary-50': currentFunction === func.iseId }">
                 <h3 class="font-semibold">{{ func.name }}</h3>
                 <p v-if="func.description.length > 0">{{ func.description }}</p>
             </Panel>
