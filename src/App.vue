@@ -93,7 +93,7 @@
 
         <!-- Content -->
         <div class="fixed bg-white left-56 right-0 bottom-0 top-12 overflow-scroll">
-            <div class="h-full p-5 xl:p-8 pb-0 flex flex-col justify-between">
+            <div class="h-full p-5 xl:p-8 !pb-0 flex flex-col justify-between">
                 <div>
                     <component :is="currentComponent" @reload-data="reloadData()" v-if="baseDataLoaded"></component>
                 </div>
