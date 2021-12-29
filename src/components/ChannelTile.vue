@@ -1,7 +1,7 @@
 <template>
     <Panel>
         <h3 class="font-semibold text-lg">{{ channel.device().name }}</h3>
-        {{ channel.device() }}
+        {{ channel.device().address }}
     </Panel>
 </template>
 
