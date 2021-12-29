@@ -49,7 +49,19 @@ export default {
         inFunction: 'in {favorite}'
     },
 
+    extensions: {
+        dreambox: {
+            description: 'Mit dieser Erweiterung lassen sich Geräte von einem Dreambox-Receiver schalten. Dafür muss ein Plugin auf dem Receiver installiert werden. Im Anschluss müssen die schaltbaren Geräte ausgewählt und die Auswahl übertragen werden.',
+            ftp: 'FTP-Daten',
+            ftpIp: 'Server',
+            ftpPort: 'Port',
+            ftpUser: 'Benutzername',
+            ftpPassword: 'Passwort',
+        }
+    },
+
     settings: {
+        ccu: 'CCU-Daten',
         ccuIp: 'CCU IP',
         ccuIpChecking: 'Überprüfe die CCU IP...',
         ccuIpValid: 'Die CCU IP ist gültig und kann gespeichert werden.',

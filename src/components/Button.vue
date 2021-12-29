@@ -1,5 +1,5 @@
 <template>
-    <button :disabled="disabled" :class="buttonStyles" class="transition-colors rounded px-3 py-2 text-sm">
+    <button :disabled="disabled" :class="buttonStyles" class="transition-colors rounded px-4 py-2 text-sm">
         <slot />
     </button>
 </template>

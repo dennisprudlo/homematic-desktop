@@ -1,7 +1,7 @@
 <template>
     <Title>{{ $t('sidebar.functions') }}</Title>
 
-    <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mb-4">
+    <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-4">
         <a v-on:click="selectFunction(func)" class="cursor-pointer block group" v-for="func in functions" :key="func.iseId">
             <Panel class="group-hover:text-primary group-hover:border-primary" :class="{ 'text-primary': currentFunction === func.iseId, 'border-primary': currentFunction === func.iseId }">
                 <h3 class="font-semibold">{{ func.name }}</h3>
@@ -11,7 +11,7 @@
     </div>
 
     <div v-if="currentFunctionChannels.length > 0" class="mt-12">
-        <Title type="subheading">
+        <Title type="subheading" class="mb-2">
             {{ $t('functions.channels') }}
             <span class="text-gray-400 text-sm">{{ $t('functions.inFunction', { func: currentFunctionName }) }}</span>
         </Title>

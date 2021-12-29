@@ -49,7 +49,19 @@ export default {
         inFunction: 'in {favorite}'
     },
 
+    extensions: {
+        dreambox: {
+            description: 'With this extension devices can be controlled from a Dreambox receiver. For this a plugin must be installed on the receiver. Subsequently, the devices to controll must be selected and the selection must be transferred.',
+            ftp: 'FTP settings',
+            ftpIp: 'Server',
+            ftpPort: 'Port',
+            ftpUser: 'Username',
+            ftpPassword: 'Password',
+        }
+    },
+
     settings: {
+        ccu: 'CCU settings',
         ccuIp: 'CCU IP',
         ccuIpChecking: 'Checking CCU IP...',
         ccuIpValid: 'The CCU IP is valid and can be saved.',

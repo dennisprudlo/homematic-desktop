@@ -1,26 +1,30 @@
 <template>
     <Title>{{ $t('sidebar.devices') }}</Title>
 
-    <ul>
-        <li v-for="device in devices" :key="device.iseId">
-            {{ device.name }}
-        </li>
-    </ul>
+    <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-4">
+        <ChannelTile v-for="channel in allChannels" :key="channel.iseId" :channel="channel" />
+    </div>
 </template>
 
 <script>
 import Title from '../Title.vue'
+import ChannelTile from '../ChannelTile.vue'
 import xmlapi from '../../xmlapi/api.js'
 
 export default {
-    components: { Title },
+    components: { Title, ChannelTile },
     data () {
         return {
             devices: []
         }
     },
     created () {
-        this.devices = xmlapi.devices().then(devices => this.devices = devices);
+        this.devices = xmlapi.cache.devices;
     },
+    computed: {
+        allChannels () {
+            return this.devices.flatMap(device => device.channels);
+        }
+    }
 }
 </script>

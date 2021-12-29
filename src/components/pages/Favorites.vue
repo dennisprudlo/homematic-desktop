@@ -1,7 +1,7 @@
 <template>
     <Title>{{ $t('sidebar.favorites') }}</Title>
 
-    <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mb-4">
+    <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-4">
         <a v-on:click="selectFavorite(favorite)" class="cursor-pointer block group" v-for="favorite in favorites" :key="favorite.iseId">
             <Panel class="group-hover:text-primary group-hover:border-primary" :class="{ 'text-primary': currentFavorite === favorite.iseId, 'border-primary': currentFavorite === favorite.iseId }">
                 <h3 class="font-semibold">{{ favorite.name }}</h3>
@@ -10,7 +10,7 @@
     </div>
 
     <div v-if="currentFavoriteChannels.length > 0" class="mt-12">
-        <Title type="subheading">
+        <Title type="subheading" class="mb-2">
             {{ $t('favorites.channels') }}
             <span class="text-gray-400 text-sm">{{ $t('favorites.inFunction', { favorite: currentFavoriteName }) }}</span>
         </Title>
