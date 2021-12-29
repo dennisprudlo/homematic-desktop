@@ -2,7 +2,9 @@
 
     <!-- Title Bar -->
     <header class="fixed w-full z-50 h-12 bg-primary text-white flex items-center justify-center" style="-webkit-app-region: drag; -webkit-user-select: none;">
-        <div class="absolute left-24">
+
+        <!-- Links -->
+        <div class="absolute left-24" v-if="hasCcuIp">
             <TitlebarButton v-on:click="openCcuInBrowser()">
                 <div class="flex items-center text-sm space-x-2">
                     {{ $t('sidebar.ccu') }} &rarr;
@@ -17,7 +19,7 @@
         </div>
 
         <!-- Actions -->
-        <div class="absolute right-5 flex items-center space-x-2">
+        <div class="absolute right-5 flex items-center space-x-2" v-if="hasCcuIp">
 
             <!-- Notifications -->
             <div v-if="baseDataLoaded">
@@ -60,7 +62,7 @@
     <main class="bg-white pt-12">
 
         <!-- Sidebar -->
-        <aside class="fixed top-12 bottom-0 p-5 xl:p-8 w-56 bg-gray-100 border-r overflow-scroll flex flex-col justify-between select-none">
+        <aside v-if="hasCcuIp" class="fixed top-12 bottom-0 p-5 xl:p-8 w-56 bg-gray-100 border-r overflow-scroll flex flex-col justify-between select-none">
             <div class="space-y-6">
                 <ul class="space-y-1">
                     <SidebarItem page="overview">{{ $t('sidebar.overview') }}</SidebarItem>
@@ -99,11 +101,15 @@
         </aside>
 
         <!-- Content -->
-        <div class="fixed bg-white left-56 right-0 bottom-0 top-12 overflow-scroll">
+        <div class="fixed bg-white right-0 bottom-0 top-12 overflow-scroll" :class="{ 'left-56': hasCcuIp, 'left-0': !hasCcuIp }">
             <div class="h-full p-5 xl:p-8 !pb-0 flex flex-col justify-between">
-                <div>
-                    <component :is="currentComponent" @reload-data="reloadData()" v-if="baseDataLoaded || alwaysLoadPages.includes(currentComponent)"></component>
-                    <GoToSettings v-else />
+                <div class="flex-grow">
+                    <Settings v-if="!hasCcuIp" @reload-data="reloadData()" />
+                    <component :is="currentComponent" @reload-data="reloadData()" v-else-if="baseDataLoaded || alwaysLoadPages.includes(currentComponent)"></component>
+                    <GoToSettings v-else-if="errorsInBaseData" />
+                    <div v-else class="h-full flex justify-center">
+                        <Spinner />
+                    </div>
                 </div>
 
                 <!-- Footer -->
@@ -120,18 +126,22 @@
 import SidebarItem from './components/SidebarItem.vue'
 import Dropdown from './components/Dropdown.vue'
 import Button from './components/Button.vue'
+import Spinner from './components/Spinner.vue'
 import TitlebarButton from './components/TitlebarButton.vue'
 import GoToSettings from './components/pages/GoToSettings.vue'
+import Settings from './components/pages/Settings.vue'
 import xmlapi from './xmlapi/api.js'
 const packageJson = require('../package.json');
 
 export default {
-    components: { SidebarItem, TitlebarButton, Dropdown, Button, GoToSettings },
+    components: { SidebarItem, TitlebarButton, Dropdown, Button, GoToSettings, Settings, Spinner },
     data () {
         return {
+            ccuIp: '',
             apiVersion: '',
             systemNotifications: [],
             baseDataLoaded: false,
+            errorsInBaseData: false,
             dSystemNotificationsOpen: false,
             applicationVersion: packageJson.version,
             currentPage: 'overview',
@@ -139,11 +149,15 @@ export default {
         }
     },
     created () {
+        this.ccuIp = window.store.get('settings.ccuIp') || '';
         this.reloadData();
     },
     computed: {
+        hasCcuIp () {
+            return this.ccuIp.length > 0;
+        },
         currentComponent () {
-            return 'page-' + this.currentPage
+            return 'page-' + this.currentPage;
         }
     },
     methods: {
@@ -151,13 +165,15 @@ export default {
             this.apiVersion = '';
             this.systemNotifications = [];
             this.baseDataLoaded = false;
+            this.errorsInBaseData = false;
+
             xmlapi.version().then(version => this.apiVersion = version);
             xmlapi.systemNotifications().then(notifications => {
                 xmlapi.devices().then(() => {
                     this.systemNotifications = notifications;
                     this.baseDataLoaded = true;
-                })
-            });
+                }).catch(() => this.errorsInBaseData = true);
+            }).catch(() => this.errorsInBaseData = true);
         },
         hasSystemNotifications () {
             return this.systemNotifications !== null && this.systemNotifications.length > 0;

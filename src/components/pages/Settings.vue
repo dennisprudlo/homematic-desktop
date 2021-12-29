@@ -53,7 +53,12 @@ export default {
 
             await xmlapi._loadIp();
 
-            this.$emit('reload-data')
+            if (this.$parent.ccuIp.length === 0) {
+                this.$parent.currentPage = 'overview';
+            }
+
+            this.$parent.ccuIp = this.ccuIp;
+            this.$emit('reload-data');
         }
     }
 }
