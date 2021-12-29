@@ -44,6 +44,11 @@ export default {
         inFunction: 'in {func}'
     },
 
+    favorites: {
+        channels: 'Channels',
+        inFunction: 'in {favorite}'
+    },
+
     settings: {
         ccuIp: 'CCU IP',
         ccuIpChecking: 'Checking CCU IP...',

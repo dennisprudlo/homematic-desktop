@@ -2,6 +2,7 @@ import SystemNotification from "./models/system-notification";
 import Device from "./models/device";
 import Channel from "./models/channel";
 import Function from "./models/function";
+import Favorite from "./models/favorite";
 import XmlParser from "./xml-parser";
 
 /**
@@ -172,6 +173,30 @@ class XMLAPI {
                 channels
             );
         });
+    }
+
+    /**
+     * Loads all favorites
+     * @returns The favorites
+     */
+     async favorites () {
+        const response = await fetch(this._url('favoritelist'));
+        const parser = new XmlParser(await this.fromArrayBuffer(response));
+        const favorites = parser.document.documentElement.querySelectorAll('favorite');
+        const allChannels = (this.cache.devices).flatMap(device => device.channels);
+
+        return Array.from(favorites).map(favoriteNode => {
+            const channels = Array.from(favoriteNode.querySelectorAll('channel')).map(channelNode => {
+                const channelIseId = channelNode.getAttribute('ise_id');
+                return allChannels.find(channel => channel.iseId === channelIseId);
+            }).filter(channel => channel !== undefined);
+
+            return new Favorite(
+                favoriteNode.getAttribute('name'),
+                favoriteNode.getAttribute('ise_id'),
+                channels
+            );
+        }).filter(favorite => favorite.channels.length > 0);
     }
 }
 

@@ -8,6 +8,7 @@ export default class Function {
      * @param {string} name The function name
      * @param {string} description The function description
      * @param {int} iseId The internal id
+     * @param {Channel[]} channels The list of channels
      */
     constructor (name, description, iseId, channels) {
         this.name = name === 'funcCentral' ? t('general.centralFunction') : name;
