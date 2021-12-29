@@ -68,8 +68,19 @@ class XMLAPI {
      */
     async version () {
         const response = await fetch(this._url('version'));
-        const parser = new XmlParser(await response.text());
+        const parser = new XmlParser(await this.fromArrayBuffer(response));
         return parser.document.documentElement.innerHTML;
+    }
+
+    /**
+     * Decodes the text using the array buffer
+     * @param {Promise} response The response promise
+     * @returns The decoded text
+     */
+    async fromArrayBuffer (response) {
+        const buffer = await response.arrayBuffer();
+        const decoder = new TextDecoder('iso-8859-1');
+        return decoder.decode(buffer);
     }
 
     /**
@@ -78,7 +89,7 @@ class XMLAPI {
      */
     async systemNotifications () {
         const response = await fetch(this._url('systemNotification'));
-        const parser = new XmlParser(await response.text());
+        const parser = new XmlParser(await this.fromArrayBuffer(response));
         const notifications = parser.document.documentElement.querySelectorAll('notification');
         return Array.from(notifications).map(node => {
             return new SystemNotification(
@@ -103,7 +114,7 @@ class XMLAPI {
      */
     async devices () {
         const response = await fetch(this._url('devicelist'));
-        const parser = new XmlParser(await response.text());
+        const parser = new XmlParser(await this.fromArrayBuffer(response));
         const devices = parser.document.documentElement.querySelectorAll('device');
         this.cache.devices = Array.from(devices).map(deviceNode => {
             const channels = Array.from(deviceNode.querySelectorAll('channel')).map(channelNode => {
@@ -142,9 +153,9 @@ class XMLAPI {
      * Loads all functions
      * @returns The functions
      */
-    async functions () {
+     async functions () {
         const response = await fetch(this._url('functionlist'));
-        const parser = new XmlParser(await response.text());
+        const parser = new XmlParser(await this.fromArrayBuffer(response));
         const functions = parser.document.documentElement.querySelectorAll('function');
         const allChannels = (this.cache.devices).flatMap(device => device.channels);
 
