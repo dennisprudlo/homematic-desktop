@@ -1,3 +1,6 @@
+import i18n from '../../assets/i18n';
+const { t } = i18n.global
+
 export default class Function {
 
     /**
@@ -7,7 +10,7 @@ export default class Function {
      * @param {int} iseId The internal id
      */
     constructor (name, description, iseId, channels) {
-        this.name = name
+        this.name = name === 'funcCentral' ? t('general.centralFunction') : name;
         this.description = description;
         this.iseId = iseId;
         this.channels = channels;

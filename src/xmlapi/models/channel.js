@@ -1,3 +1,5 @@
+import xmlapi from "../api";
+
 export default class Channel {
 
     /**
@@ -30,5 +32,13 @@ export default class Channel {
         this.visible = visible;
         this.readyConfig = readyConfig;
         this.operate = operate;
+    }
+
+    /**
+     * Get the device of the channel
+     * @returns The device
+     */
+    device () {
+        return xmlapi.getDeviceForChannel(this.iseId);
     }
 }

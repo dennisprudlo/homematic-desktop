@@ -4,6 +4,7 @@ import i18n from './assets/i18n';
 
 const app = createApp(App);
 app.use(i18n);
+app.config.globalProperties.window = window;
 
 import Overview from './components/pages/Overview'
 import Devices from './components/pages/Devices'

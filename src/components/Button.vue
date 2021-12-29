@@ -1,11 +1,20 @@
 <template>
-    <button :disabled="disabled" :class="{ 'opacity-50': disabled }" class="bg-primary text-white rounded px-3 py-1 text-sm">
+    <button :disabled="disabled" :class="buttonStyles" class="transition-colors rounded px-3 py-2 text-sm">
         <slot />
     </button>
 </template>
 
 <script>
 export default {
-    props: [ 'disabled' ]
+    props: [ 'disabled', 'btnstyle' ],
+    computed: {
+        buttonStyles () {
+            return {
+                'opacity-50': this.disabled,
+                'bg-primary hover:bg-primary-900 text-white': this.btnstyle !== 'secondary',
+                'bg-gray-200 hover:bg-gray-300': this.btnstyle === 'secondary',
+            }
+        }
+    }
 }
 </script>

@@ -13,7 +13,7 @@
         <div class="absolute right-5 flex items-center space-x-2">
 
             <!-- Notifications -->
-            <div v-if="systemNotificationsLoaded">
+            <div v-if="baseDataLoaded">
                 <TitlebarButton v-on:click="dSystemNotificationsOpen = !dSystemNotificationsOpen">
                     <div class="flex items-center text-sm space-x-2">
 
@@ -36,7 +36,7 @@
                     <div v-else>
                         <div class="divide-y">
                             <div v-for="systemNotification in systemNotifications" :key="systemNotification.iseId" class="text-left flex flex-col text-sm py-3 first:pt-0 last:pb-0">
-                                <div>{{ systemNotification.name }}</div>
+                                <div>{{ systemNotification.getDeviceName() }}</div>
                                 <div class="text-xs text-gray-400 italic mt-1">{{ systemNotification.getType() }} - {{ systemNotification.datetime.fromNow() }}</div>
                             </div>
                         </div>
@@ -81,7 +81,7 @@
             </div>
 
             <!-- Trailing sidebar actions -->
-            <div class="mt-12">
+            <div class="mt-12 select-none">
                 <ul class="space-y-1">
                     <SidebarItem page="settings">{{ $t('sidebar.settings') }}</SidebarItem>
                 </ul>
@@ -92,17 +92,18 @@
         </aside>
 
         <!-- Content -->
-        <div class="absolute bg-white left-56 right-0 p-5 xl:p-8 flex flex-col justify-between bottom-0 top-12">
-            <div>
-                <keep-alive>
-                    <component :is="currentComponent"></component>
-                </keep-alive>
-            </div>
+        <div class="fixed bg-white left-56 right-0 bottom-0 top-12 overflow-scroll">
+            <div class="h-full p-5 xl:p-8 pb-0 flex flex-col justify-between">
+                <div>
+                    <component :is="currentComponent" @reload-data="reloadData()" v-if="baseDataLoaded"></component>
+                </div>
 
-            <!-- Footer -->
-            <footer class="border-t pt-2 text-xs text-gray-400 mt-12">
-                {{ $t('footer.apiVersion', { version: apiVersion }) }}
-            </footer>
+                <!-- Footer -->
+                <footer class="border-t pt-2 text-xs text-gray-400 mt-12 select-none">
+                    {{ $t('footer.apiVersion', { version: apiVersion }) }}
+                    <div class="h-5 xl:h-8"></div>
+                </footer>
+            </div>
         </div>
     </main>
 </template>
@@ -121,18 +122,14 @@ export default {
         return {
             apiVersion: '',
             systemNotifications: [],
-            systemNotificationsLoaded: false,
+            baseDataLoaded: false,
             dSystemNotificationsOpen: false,
             applicationVersion: packageJson.version,
             currentPage: 'overview'
         }
     },
     created () {
-        this.apiVersion = xmlapi.version().then(version => this.apiVersion = version);
-        this.systemNotifications = xmlapi.systemNotifications().then(notifications => {
-            this.systemNotifications = notifications;
-            this.systemNotificationsLoaded = true;
-        });
+        this.reloadData();
     },
     computed: {
         currentComponent() {
@@ -140,6 +137,18 @@ export default {
         }
     },
     methods: {
+        reloadData () {
+            this.apiVersion = '';
+            this.systemNotifications = [];
+            this.baseDataLoaded = false;
+            xmlapi.version().then(version => this.apiVersion = version);
+            xmlapi.systemNotifications().then(notifications => {
+                xmlapi.devices().then(() => {
+                    this.systemNotifications = notifications;
+                    this.baseDataLoaded = true;
+                })
+            });
+        },
         hasSystemNotifications () {
             return this.systemNotifications !== null && this.systemNotifications.length > 0;
         },

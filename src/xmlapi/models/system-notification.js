@@ -1,5 +1,6 @@
 import moment from 'moment'
 import i18n from '../../assets/i18n';
+import xmlapi from '../api';
 const { t } = i18n.global
 
 export default class SystemNotification {
@@ -34,6 +35,23 @@ export default class SystemNotification {
         }
 
         return t('general.unknown');
+    }
+
+    /**
+     * Get the device name for the system notification
+     * @returns The device name
+     */
+    getDeviceName () {
+        if (xmlapi.cache.devices === null) {
+            return this.name;
+        }
+
+        const device = xmlapi.cache.devices.find(device => {
+            const serialNumber = this.serial.split(':')[0];
+            return device.address === serialNumber;
+        });
+
+        return device ? device.name : this.name;
     }
 
     /**

@@ -1,7 +1,10 @@
 export default {
 
     general: {
-        unknown: 'Unknown'
+        unknown: 'Unknown',
+        check: 'Check validity',
+        save: 'Save',
+        centralFunction: 'Central control unit',
     },
 
     titleBar: {
@@ -23,7 +26,7 @@ export default {
     sidebar: {
         overview: 'Overview',
 
-        statusAndControl: 'Status and Control',
+        statusAndControl: 'Homematic',
         devices: 'Devices',
         rooms: 'Rooms',
         functions: 'Functions',
@@ -32,8 +35,20 @@ export default {
         settings: 'Settings',
         version: 'Version {version}',
 
-        extensions: 'Erweiterungen',
+        extensions: 'Extensions',
         dreambox: 'Dreambox'
+    },
+
+    functions: {
+        channels: 'Channels',
+        inFunction: 'in {func}'
+    },
+
+    settings: {
+        ccuIp: 'CCU IP',
+        ccuIpChecking: 'Checking CCU IP...',
+        ccuIpValid: 'The CCU IP is valid and can be saved.',
+        ccuIpInvalid: 'The CCU IP is not valid or the XML-API add-on is not installed.'
     },
 
     footer: {

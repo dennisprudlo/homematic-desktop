@@ -13,7 +13,44 @@ class XMLAPI {
      * Constructs the xml api object
      */
     constructor () {
-        this.ccuIp = '192.168.178.106';
+        this._loadIp();
+
+        this.cache = {
+            devices: null
+        };
+    }
+
+    /**
+     * Get the device for a channel
+     * @param {int} iseId The ise id of the channel
+     */
+    getDeviceForChannel(iseId) {
+        if (this.cache.devices !== null) {
+            return this.cache.devices.find(device => {
+                return device.channels.filter(channel => channel.iseId === iseId).length > 0;
+            });
+        }
+    }
+
+    /**
+     * Checks the ip validity
+     * @param {string} ip The ip address to check
+     * @returns Whether the ip is valid or not
+     */
+    async checkValidity (ip) {
+        try {
+            await fetch(this._url('version', ip));
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
+
+    /**
+     * Checks if the api has a connection
+     */
+    async _loadIp () {
+        this.ccuIp = window.store.get('settings.ccuIp') || '127.0.0.1';
     }
 
     /**
@@ -21,8 +58,8 @@ class XMLAPI {
      * @param {string} script The name of the api script
      * @returns The full qualified url with query parameters
      */
-    _url (script) {
-        return `http://${ this.ccuIp }/addons/xmlapi/${ script }.cgi`;
+    _url (script, ip = undefined) {
+        return `http://${ ip || this.ccuIp }/addons/xmlapi/${ script }.cgi`;
     }
 
     /**
@@ -68,7 +105,7 @@ class XMLAPI {
         const response = await fetch(this._url('devicelist'));
         const parser = new XmlParser(await response.text());
         const devices = parser.document.documentElement.querySelectorAll('device');
-        return Array.from(devices).map(deviceNode => {
+        this.cache.devices = Array.from(devices).map(deviceNode => {
             const channels = Array.from(deviceNode.querySelectorAll('channel')).map(channelNode => {
                 return new Channel(
                     channelNode.getAttribute('name'),
@@ -97,6 +134,8 @@ class XMLAPI {
                 channels
             );
         });
+
+        return this.cache.devices;
     }
 
     /**
@@ -107,7 +146,7 @@ class XMLAPI {
         const response = await fetch(this._url('functionlist'));
         const parser = new XmlParser(await response.text());
         const functions = parser.document.documentElement.querySelectorAll('function');
-        const allChannels = (await this.devices()).flatMap(device => device.channels);
+        const allChannels = (this.cache.devices).flatMap(device => device.channels);
 
         return Array.from(functions).map(functionNode => {
             const channels = Array.from(functionNode.querySelectorAll('channel')).map(channelNode => {
