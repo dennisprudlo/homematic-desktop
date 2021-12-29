@@ -12,3 +12,7 @@ contextBridge.exposeInMainWorld('store', {
         store.set(key, value);
     }
 });
+
+contextBridge.exposeInMainWorld('openURL', (url) => {
+    require('electron').shell.openExternal(url);
+})

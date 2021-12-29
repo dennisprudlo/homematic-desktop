@@ -39,14 +39,14 @@ export default {
         }
     },
     created () {
-        this.ftpIp = window.store.get('settings.extensions.dreambox.ftpIp') || '';
-        this.ftpPort = window.store.get('settings.extensions.dreambox.ftpPort') || '';
-        this.ftpUser = window.store.get('settings.extensions.dreambox.ftpUser') || '';
-        this.ftpPassword = window.store.get('settings.extensions.dreambox.ftpPassword') || '';
+        this.ftpIp = window.store.get('extensions.dreambox.ftpIp') || '';
+        this.ftpPort = window.store.get('extensions.dreambox.ftpPort') || '';
+        this.ftpUser = window.store.get('extensions.dreambox.ftpUser') || '';
+        this.ftpPassword = window.store.get('extensions.dreambox.ftpPassword') || '';
     },
     methods: {
         async saveSettings () {
-            window.store.set('settings.extensions.dreambox', {
+            window.store.set('extensions.dreambox', {
                 ftpIp: this.ftpIp,
                 ftpPort: this.ftpPort,
                 ftpUser: this.ftpUser,

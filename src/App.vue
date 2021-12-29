@@ -2,6 +2,13 @@
 
     <!-- Title Bar -->
     <header class="fixed w-full z-50 h-12 bg-primary text-white flex items-center justify-center" style="-webkit-app-region: drag; -webkit-user-select: none;">
+        <div class="absolute left-24">
+            <TitlebarButton v-on:click="openCcuInBrowser()">
+                <div class="flex items-center text-sm space-x-2">
+                    {{ $t('sidebar.ccu') }} &rarr;
+                </div>
+            </TitlebarButton>
+        </div>
 
         <!-- Title -->
         <div class="flex items-center">
@@ -95,7 +102,8 @@
         <div class="fixed bg-white left-56 right-0 bottom-0 top-12 overflow-scroll">
             <div class="h-full p-5 xl:p-8 !pb-0 flex flex-col justify-between">
                 <div>
-                    <component :is="currentComponent" @reload-data="reloadData()" v-if="baseDataLoaded"></component>
+                    <component :is="currentComponent" @reload-data="reloadData()" v-if="baseDataLoaded || alwaysLoadPages.includes(currentComponent)"></component>
+                    <GoToSettings v-else />
                 </div>
 
                 <!-- Footer -->
@@ -113,11 +121,12 @@ import SidebarItem from './components/SidebarItem.vue'
 import Dropdown from './components/Dropdown.vue'
 import Button from './components/Button.vue'
 import TitlebarButton from './components/TitlebarButton.vue'
+import GoToSettings from './components/pages/GoToSettings.vue'
 import xmlapi from './xmlapi/api.js'
 const packageJson = require('../package.json');
 
 export default {
-    components: { SidebarItem, TitlebarButton, Dropdown, Button },
+    components: { SidebarItem, TitlebarButton, Dropdown, Button, GoToSettings },
     data () {
         return {
             apiVersion: '',
@@ -125,14 +134,15 @@ export default {
             baseDataLoaded: false,
             dSystemNotificationsOpen: false,
             applicationVersion: packageJson.version,
-            currentPage: 'overview'
+            currentPage: 'overview',
+            alwaysLoadPages: [ 'page-settings', 'page-ext-dreambox' ]
         }
     },
     created () {
         this.reloadData();
     },
     computed: {
-        currentComponent() {
+        currentComponent () {
             return 'page-' + this.currentPage
         }
     },
@@ -161,6 +171,14 @@ export default {
             await xmlapi.clearSystemNotifications();
             this.systemNotifications = await xmlapi.systemNotifications();
             this.dSystemNotificationsOpen = false;
+        },
+        openCcuInBrowser () {
+            const ccuIp = window.store.get('settings.ccuIp');
+            if (ccuIp && ccuIp.length > 0) {
+                window.openURL(`http://${ ccuIp }`);
+            } else {
+                this.currentPage = 'settings';
+            }
         }
     }
 }

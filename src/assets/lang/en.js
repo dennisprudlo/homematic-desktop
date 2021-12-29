@@ -7,6 +7,11 @@ export default {
         centralFunction: 'Central control unit',
     },
 
+    configure: {
+        title: 'Oops!',
+        description: 'It looks like the application is not configured properly. Go to the settings to configure the application.',
+    },
+
     titleBar: {
         systemNotifications: {
             button: '{count} notification | {count} notifications',
@@ -25,6 +30,7 @@ export default {
 
     sidebar: {
         overview: 'Overview',
+        ccu: 'CCU',
 
         statusAndControl: 'Homematic',
         devices: 'Devices',
