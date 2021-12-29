@@ -21,6 +21,7 @@
   },
   "main": "background.js",
   "dependencies": {
+    "basic-ftp": "^4.6.6",
     "core-js": "^3.6.5",
     "electron-store": "^8.0.1",
     "vue": "^3.0.0",

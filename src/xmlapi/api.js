@@ -17,7 +17,9 @@ class XMLAPI {
         this._loadIp();
 
         this.cache = {
-            devices: null
+            devices: null,
+            functions: null,
+            favorites: null
         };
     }
 
@@ -114,6 +116,10 @@ class XMLAPI {
      * @returns The devices
      */
     async devices () {
+        if (this.cache.devices !== null) {
+            return this.cache.devices;
+        }
+
         const response = await fetch(this._url('devicelist'));
         const parser = new XmlParser(await this.fromArrayBuffer(response));
         const devices = parser.document.documentElement.querySelectorAll('device');
@@ -155,12 +161,16 @@ class XMLAPI {
      * @returns The functions
      */
      async functions () {
+        if (this.cache.functions !== null) {
+            return this.cache.functions;
+        }
+
         const response = await fetch(this._url('functionlist'));
         const parser = new XmlParser(await this.fromArrayBuffer(response));
         const functions = parser.document.documentElement.querySelectorAll('function');
         const allChannels = (this.cache.devices).flatMap(device => device.channels);
 
-        return Array.from(functions).map(functionNode => {
+        this.cache.functions = Array.from(functions).map(functionNode => {
             const channels = Array.from(functionNode.querySelectorAll('channel')).map(channelNode => {
                 const channelIseId = channelNode.getAttribute('ise_id');
                 return allChannels.find(channel => channel.iseId === channelIseId);
@@ -173,6 +183,8 @@ class XMLAPI {
                 channels
             );
         });
+
+        return this.cache.functions;
     }
 
     /**
@@ -180,12 +192,16 @@ class XMLAPI {
      * @returns The favorites
      */
      async favorites () {
+        if (this.cache.favorites !== null) {
+            return this.cache.favorites;
+        }
+
         const response = await fetch(this._url('favoritelist'));
         const parser = new XmlParser(await this.fromArrayBuffer(response));
         const favorites = parser.document.documentElement.querySelectorAll('favorite');
         const allChannels = (this.cache.devices).flatMap(device => device.channels);
 
-        return Array.from(favorites).map(favoriteNode => {
+        this.cache.favorites = Array.from(favorites).map(favoriteNode => {
             const channels = Array.from(favoriteNode.querySelectorAll('channel')).map(channelNode => {
                 const channelIseId = channelNode.getAttribute('ise_id');
                 return allChannels.find(channel => channel.iseId === channelIseId);
@@ -197,6 +213,8 @@ class XMLAPI {
                 channels
             );
         }).filter(favorite => favorite.channels.length > 0);
+
+        return this.cache.favorites;
     }
 }
 

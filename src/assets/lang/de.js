@@ -4,7 +4,8 @@ export default {
         unknown: 'Unbekannt',
         check: 'Überprüfen',
         save: 'Speichern',
-        centralFunction: 'Zentrale Kontrolleinheit'
+        centralFunction: 'Zentrale Kontrolleinheit',
+        transferData: 'Daten übertragen'
     },
 
     configure: {
@@ -58,11 +59,33 @@ export default {
     extensions: {
         dreambox: {
             description: 'Mit dieser Erweiterung lassen sich Geräte von einem Dreambox-Receiver schalten. Dafür muss ein Plugin auf dem Receiver installiert werden. Im Anschluss müssen die schaltbaren Geräte ausgewählt und die Auswahl übertragen werden.',
+
+            settingsShow: 'Verbindungseinstellungen anzeigen',
+            settingsHide: 'Verbindungseinstellungen verstecken',
+
             ftp: 'FTP-Daten',
             ftpIp: 'Server',
             ftpPort: 'Port',
             ftpUser: 'Benutzername',
             ftpPassword: 'Passwort',
+
+            pluginPath: 'Pfad zum HomematicDreambox Plugin',
+
+            devices: 'Kanäle',
+            devicesDescription: 'Aktuell ist {count} Kanal ausgewählt, das übertragen werden kann.|Aktuell sind {count} Kanäle ausgewählt, die übertragen werden können.',
+            devicesListShow: 'Kanalliste aufklappen',
+            devicesListHide: 'Kanalliste einklappen',
+
+            transfer: 'Übertragung',
+            transferDescription: 'Beim Übertragen der Daten wird die aktuelle CCU IP ({ccuIp}) und die ausgewählten Kanäle auf der Dreambox abgelegt.',
+            uploadCcuIpTitle: 'Upload der CCU IP',
+            uploadChannelsTitle: 'Upload der Kanalliste',
+            messages: {
+                localFileWritten: 'Die lokalen Dateien wurden angelegt. Verbindung zur Dreambox herstellen...',
+                accessed: 'Die Verbindung zur Dreambox war erfolgreich. Upload der Dateien...',
+                successful: 'Der Datentransfer war erfolgreich!',
+                error: 'Es ist ein Fehler aufgetreten!'
+            }
         }
     },
 

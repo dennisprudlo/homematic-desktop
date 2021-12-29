@@ -5,6 +5,7 @@ export default {
         check: 'Check validity',
         save: 'Save',
         centralFunction: 'Central control unit',
+        transferData: 'Transfer settings'
     },
 
     configure: {
@@ -58,11 +59,33 @@ export default {
     extensions: {
         dreambox: {
             description: 'With this extension devices can be controlled from a Dreambox receiver. For this a plugin must be installed on the receiver. Subsequently, the devices to controll must be selected and the selection must be transferred.',
+
+            settingsShow: 'Show connection settings',
+            settingsHide: 'Hide connection settings',
+
             ftp: 'FTP settings',
             ftpIp: 'Server',
             ftpPort: 'Port',
             ftpUser: 'Username',
             ftpPassword: 'Password',
+
+            pluginPath: 'Path to the HomematicDreambox plugin',
+
+            devices: 'Channels',
+            devicesDescription: 'Currently {count} channel is selected, which can be transferred.|Currently {count} channels are selected, which can be transferred.',
+            devicesListShow: 'Show channel list',
+            devicesListHide: 'Hide channel list',
+
+            transfer: 'Transfer',
+            transferDescription: 'When transferring data the current CCU IP ({ccuIp}) and the selected channels will be stored on the Dreambox.',
+            uploadCcuIpTitle: 'Upload of the CCU IP',
+            uploadChannelsTitle: 'Upload of the channel list',
+            messages: {
+                localFileWritten: 'The local file has been created. Connecting to the Dreambox...',
+                accessed: 'The connection to the Dreambox was successful. Uploading file...',
+                successful: 'The file was transferred!',
+                error: 'There was an error!'
+            }
         }
     },
 
