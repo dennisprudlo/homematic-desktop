@@ -62,7 +62,7 @@ class XMLAPI {
      * @returns The full qualified url with query parameters
      */
     _url (script, ip = undefined) {
-        return `http://${ ip || this.ccuIp }/addons/xmlapi/${ script }.cgi`;
+        return `http://${ ip || this.ccuIp }/addons/xmlapi/${ script }.cgi.xml`;
     }
 
     /**

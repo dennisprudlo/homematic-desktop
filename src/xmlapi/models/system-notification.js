@@ -13,7 +13,7 @@ export default class SystemNotification {
      * @param {int} timestamp The timestamp
      */
     constructor (iseId, name, type, timestamp) {
-        this.iseId = iseId;
+        this.iseId = parseInt(iseId);
         this.name = name;
 
         const parts = name.split('.');

@@ -13,7 +13,7 @@ export default class Function {
     constructor (name, description, iseId, channels) {
         this.name = name === 'funcCentral' ? t('general.centralFunction') : name;
         this.description = description;
-        this.iseId = iseId;
+        this.iseId = parseInt(iseId);
         this.channels = channels;
     }
 }

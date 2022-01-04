@@ -61,17 +61,22 @@
         </div>
         <div class="flex-grow space-y-4">
             <p>
-                {{ $tc('extensions.dreambox.devicesDescription', this.selectedChannels.length, { count: this.selectedChannels.length })}}
+                {{ $tc('extensions.dreambox.devicesDescription', this.selectedChannels.length, { count: this.selectedChannels.length, total: this.channelsForDreambox.length })}}
             </p>
             <span class="cursor-pointer text-primary hover:underline" v-on:click="channelListOpen = !channelListOpen">
                 <span v-show="!channelListOpen">{{ $t('extensions.dreambox.devicesListShow') }}</span>
                 <span v-show="channelListOpen">{{ $t('extensions.dreambox.devicesListHide') }}</span>
             </span>
-            <div v-show="channelListOpen">
-                <a v-on:click="selectChannel(channel)" class="cursor-pointer block group" v-for="channel in channelsForDreambox" :key="channel.iseId">
+            <div v-show="channelListOpen" class="flex flex-col gap-y-2">
+                <Input placeholder="Search channels..." v-model="channelSearchQuery" />
+                <a v-on:click="selectChannel(channel)" class="cursor-pointer block group" v-for="channel in channelsForDreambox" :key="channel.iseId" v-show="channel.matchSearch(channelSearchQuery)">
                     <Panel type="small" class="group-hover:text-primary group-hover:border-primary group-hover:bg-primary-50"
                         :class="{ 'text-primary border-primary bg-primary-50': this.selectedChannels.includes(channel.iseId) }">
-                        {{ channel.name }}
+                        <div>{{ channel.name }}</div>
+                        <div class="text-sm text-gray-400 group-hover:text-primary"
+                            :class="{ 'text-primary border-primary bg-primary-50': this.selectedChannels.includes(channel.iseId) }">
+                            {{ channel.device().name }} ({{ channel.device().typeName() }})
+                        </div>
                     </Panel>
                 </a>
             </div>
@@ -137,6 +142,7 @@ export default {
             pluginPath: '',
 
             channelListOpen: false,
+            channelSearchQuery: '',
             channelsForDreambox: [],
             selectedChannels: [],
 
@@ -154,8 +160,12 @@ export default {
 
         this.pluginPath = window.store.get('extensions.dreambox.plugin.path') || '';
 
-        this.channelsForDreambox = xmlapi.cache.devices.flatMap(d => d.channels);
-        this.selectedChannels = window.store.get('extensions.dreambox.channels') || [];
+        this.channelsForDreambox = xmlapi.cache.devices
+            .flatMap(d => d.channels)
+            .filter(c => c.supportsDreamboxExtension());
+
+        this.selectedChannels = (window.store.get('extensions.dreambox.channels') || [])
+            .filter(channelIseId => this.channelsForDreambox.findIndex(c => c.iseId == channelIseId) !== -1);
 
         this.ccuIpUploadMessages = [];
         this.channelsUploadMessages = [];
@@ -164,7 +174,7 @@ export default {
         selectChannel (channel) {
             let channels = [...new Set(this.selectedChannels)];
             if (channels.includes(channel.iseId)) {
-                channels.filter(c => c.iseId !== channel.iseId);
+                channels = channels.filter(iseId => iseId !== channel.iseId);
             } else {
                 channels.push(channel.iseId);
             }

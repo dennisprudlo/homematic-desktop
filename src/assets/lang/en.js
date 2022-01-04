@@ -2,6 +2,7 @@ export default {
 
     general: {
         unknown: 'Unknown',
+        unknownDeviceType: 'Unknown device type',
         check: 'Check validity',
         save: 'Save',
         centralFunction: 'Central control unit',
@@ -72,7 +73,7 @@ export default {
             pluginPath: 'Path to the HomematicDreambox plugin',
 
             devices: 'Channels',
-            devicesDescription: 'Currently {count} channel is selected, which can be transferred.|Currently {count} channels are selected, which can be transferred.',
+            devicesDescription: 'Currently {count}/{total} channel is selected, which can be transferred.|Currently {count}/{total} channels are selected, which can be transferred.',
             devicesListShow: 'Show channel list',
             devicesListHide: 'Hide channel list',
 

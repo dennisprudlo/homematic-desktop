@@ -8,7 +8,7 @@ export default class Favorite {
      */
     constructor (name, iseId, channels) {
         this.name = name;
-        this.iseId = iseId;
+        this.iseId = parseInt(iseId);
         this.channels = channels;
     }
 }
