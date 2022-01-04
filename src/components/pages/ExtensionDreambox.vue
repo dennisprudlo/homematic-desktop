@@ -97,17 +97,10 @@
                 <Button v-on:click="transferSettings()" class="mt-4">{{ $t('general.transferData') }}</Button>
             </div>
 
-            <div v-show="ccuIpUploadMessages.length > 0 || channelsUploadMessages.length > 0">
-                <h4 class="font-semibold">{{ $t('extensions.dreambox.uploadCcuIpTitle') }}</h4>
+            <div v-show="pluginUploadMessages.length > 0 || pluginUploadMessages.length > 0">
+                <h4 class="font-semibold">{{ $t('extensions.dreambox.uploadConfigTitle') }}</h4>
                 <ul>
-                    <li v-for="message in ccuIpUploadMessages" :key="message">
-                        {{ message }}
-                    </li>
-                </ul>
-
-                <h4 class="font-semibold mt-4">{{ $t('extensions.dreambox.uploadChannelsTitle') }}</h4>
-                <ul>
-                    <li v-for="message in channelsUploadMessages" :key="message">
+                    <li v-for="message in pluginUploadMessages" :key="message">
                         {{ message }}
                     </li>
                 </ul>
@@ -125,6 +118,7 @@ import Subtitle from '../Subtitle.vue'
 import xmlapi from '../../xmlapi/api'
 import i18n from '../../assets/i18n';
 const { t } = i18n.global
+const packageJson = require('../../../package.json');
 
 export default {
     components: { Title, Input, Button, Subtitle, Panel },
@@ -146,8 +140,7 @@ export default {
             channelsForDreambox: [],
             selectedChannels: [],
 
-            ccuIpUploadMessages: [],
-            channelsUploadMessages: []
+            pluginUploadMessages: []
         }
     },
     created () {
@@ -167,8 +160,7 @@ export default {
         this.selectedChannels = (window.store.get('extensions.dreambox.channels') || [])
             .filter(channelIseId => this.channelsForDreambox.findIndex(c => c.iseId == channelIseId) !== -1);
 
-        this.ccuIpUploadMessages = [];
-        this.channelsUploadMessages = [];
+        this.pluginUploadMessages = [];
     },
     methods: {
         selectChannel (channel) {
@@ -196,35 +188,52 @@ export default {
             });
         },
         async transferSettings () {
-            const settings = {
-                host: this.ftpIp,
-                port: this.ftpPort,
-                user: this.ftpUser,
-                password: this.ftpPassword,
-                secure: false
-            };
+            // const settings = {
+            //     host: this.ftpIp,
+            //     port: this.ftpPort,
+            //     user: this.ftpUser,
+            //     password: this.ftpPassword,
+            //     secure: false
+            // };
 
-            this.ccuIpUploadMessages = [];
-            this.channelsUploadMessages = [];
+            this.pluginUploadMessages = [];
+
+            const now = new Date();
+            const configuration = {
+                generatedBy: `homematic mac/${ packageJson.version } – XML-API/${ await xmlapi.version() }`,
+                generatedAt: Date.UTC(
+                    now.getUTCFullYear(),
+                    now.getUTCMonth(),
+                    now.getUTCDate(),
+                    now.getUTCHours(),
+                    now.getUTCMinutes(),
+                    now.getUTCSeconds(),
+                    now.getUTCMilliseconds()
+                ),
+                ccuIp: this.ccuIp,
+                channels: this.selectedChannels
+                    .map(iseId => this.channelsForDreambox.find(channel => channel.iseId === iseId))
+                    .filter(channel => channel !== undefined)
+                    .map(channel => {
+                        const device = channel.device();
+                        return {
+                            channel: channel,
+                            device: device.withoutChannels(),
+                            meta: {
+                                // plugin metadata such as datapoint to switch
+                            }
+                        }
+                    })
+            };
 
             //
             // Upload ccu ip file
-            window.ftp.writeLocal('ccu_ip', this.ccuIp, () => {
-                this.ccuIpUploadMessages.push(t('extensions.dreambox.messages.localFileWritten'));
+            window.ftp.writeLocal('ext-dreambox-config.json', JSON.stringify(configuration, null, 2), () => {
+                this.pluginUploadMessages.push(t('extensions.dreambox.messages.localFileWritten'));
 
-                window.ftp.upload(settings, 'ccu_ip', `${ this.pluginPath }/resources/ccu_ip`, (step) => {
-                    this.ccuIpUploadMessages.push(t('extensions.dreambox.messages.' + step));
-                });
-            });
-
-            //
-            // Upload channels file
-            window.ftp.writeLocal('channels', 'test', () => {
-                this.channelsUploadMessages.push(t('extensions.dreambox.messages.localFileWritten'));
-
-                window.ftp.upload(settings, 'channels', `${ this.pluginPath }/resources/channels_test`, (step) => {
-                    this.channelsUploadMessages.push(t('extensions.dreambox.messages.' + step));
-                });
+                // window.ftp.upload(settings, 'ext-dreambox-config.json', `${ this.pluginPath }/resources/config.json`, (step) => {
+                //     this.pluginUploadMessages.push(t('extensions.dreambox.messages.' + step));
+                // });
             });
         }
     }

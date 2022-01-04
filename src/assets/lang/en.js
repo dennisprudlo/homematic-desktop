@@ -87,8 +87,7 @@ export default {
 
             transfer: 'Transfer',
             transferDescription: 'When transferring data the current CCU IP ({ccuIp}) and the selected channels will be stored on the Dreambox.',
-            uploadCcuIpTitle: 'Upload of the CCU IP',
-            uploadChannelsTitle: 'Upload of the channel list',
+            uploadConfigTitle: 'Upload of the plugin configuration',
             messages: {
                 localFileWritten: 'The local file has been created. Connecting to the Dreambox...',
                 accessed: 'The connection to the Dreambox was successful. Uploading file...',

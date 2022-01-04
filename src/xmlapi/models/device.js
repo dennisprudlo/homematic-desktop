@@ -30,6 +30,14 @@ export default class Device {
      typeName () {
         return deviceTypes[this.deviceType] || t('general.unknownDeviceType');
     }
+
+    /**
+     * Gets a clone of the device without channel data
+     * @returns A device clone without channels
+     */
+    withoutChannels () {
+        return new Device(this.name, this.address, this.iseId, this.radioInterface, this.deviceType, this.readyConfig, []);
+    }
 }
 
 export const deviceTypes = {

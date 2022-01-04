@@ -3,7 +3,6 @@ const Store = require('electron-store');
 const ftp = require('basic-ftp');
 const fs = require('fs');
 const path = require('path');
-const Readable = require('stream').Readable;
 
 const store = new Store();
 

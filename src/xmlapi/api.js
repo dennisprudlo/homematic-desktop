@@ -18,6 +18,7 @@ class XMLAPI {
         this._loadIp();
 
         this.cache = {
+            version: null,
             devices: null,
             functions: null,
             favorites: null,
@@ -72,9 +73,15 @@ class XMLAPI {
      * @returns The xml api version
      */
     async version () {
+        if (this.cache.version !== null) {
+            return this.cache.version;
+        }
+
         const response = await fetch(this._url('version'));
         const parser = new XmlParser(await this.fromArrayBuffer(response));
-        return parser.document.documentElement.innerHTML;
+        this.cache.version = parser.document.documentElement.innerHTML;
+
+        return this.cache.version;
     }
 
     /**
