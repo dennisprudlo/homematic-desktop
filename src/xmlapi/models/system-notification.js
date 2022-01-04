@@ -6,7 +6,7 @@ const { t } = i18n.global
 export default class SystemNotification {
 
     /**
-     *
+     * Constructs the system notification object
      * @param {int} iseId The internal id
      * @param {string} name The notification name
      * @param {string} type The notification type

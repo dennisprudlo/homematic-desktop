@@ -37,7 +37,7 @@ export default {
         }
     },
     created () {
-        this.favorites = xmlapi.favorites().then(favorites => {
+        xmlapi.favorites().then(favorites => {
             this.favorites = favorites;
             if (this.favorites.length > 0) {
                 this.selectFavorite(this.favorites[0])

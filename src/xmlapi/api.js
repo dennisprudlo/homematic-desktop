@@ -4,6 +4,7 @@ import Channel from "./models/channel";
 import Function from "./models/function";
 import Favorite from "./models/favorite";
 import XmlParser from "./xml-parser";
+import SystemVariable from "./models/system-variable";
 
 /**
  * Accessor to the xml api
@@ -19,7 +20,8 @@ class XMLAPI {
         this.cache = {
             devices: null,
             functions: null,
-            favorites: null
+            favorites: null,
+            systemVariables: null
         };
     }
 
@@ -160,7 +162,7 @@ class XMLAPI {
      * Loads all functions
      * @returns The functions
      */
-     async functions () {
+    async functions () {
         if (this.cache.functions !== null) {
             return this.cache.functions;
         }
@@ -172,7 +174,7 @@ class XMLAPI {
 
         this.cache.functions = Array.from(functions).map(functionNode => {
             const channels = Array.from(functionNode.querySelectorAll('channel')).map(channelNode => {
-                const channelIseId = channelNode.getAttribute('ise_id');
+                const channelIseId = parseInt(channelNode.getAttribute('ise_id'));
                 return allChannels.find(channel => channel.iseId === channelIseId);
             }).filter(channel => channel !== undefined);
 
@@ -191,7 +193,7 @@ class XMLAPI {
      * Loads all favorites
      * @returns The favorites
      */
-     async favorites () {
+    async favorites () {
         if (this.cache.favorites !== null) {
             return this.cache.favorites;
         }
@@ -203,7 +205,7 @@ class XMLAPI {
 
         this.cache.favorites = Array.from(favorites).map(favoriteNode => {
             const channels = Array.from(favoriteNode.querySelectorAll('channel')).map(channelNode => {
-                const channelIseId = channelNode.getAttribute('ise_id');
+                const channelIseId = parseInt(channelNode.getAttribute('ise_id'));
                 return allChannels.find(channel => channel.iseId === channelIseId);
             }).filter(channel => channel !== undefined);
 
@@ -215,6 +217,41 @@ class XMLAPI {
         }).filter(favorite => favorite.channels.length > 0);
 
         return this.cache.favorites;
+    }
+
+    /**
+     * Loads all system variables
+     * @returns The system variables
+     */
+    async systemVariables () {
+        if (this.cache.systemVariables !== null) {
+            return this.cache.systemVariables;
+        }
+
+        const response = await fetch(this._url('sysvarlist'));
+        const parser = new XmlParser(await this.fromArrayBuffer(response));
+        const variables = parser.document.documentElement.querySelectorAll('systemVariable');
+        this.cache.systemVariables = Array.from(variables).map(node => {
+            return new SystemVariable(
+                node.getAttribute('name'),
+                node.getAttribute('variable'),
+                node.getAttribute('value'),
+                node.getAttribute('value_list'),
+                node.getAttribute('ise_id'),
+                node.getAttribute('min'),
+                node.getAttribute('max'),
+                node.getAttribute('unit'),
+                node.getAttribute('type'),
+                node.getAttribute('subtype'),
+                node.getAttribute('logged'),
+                node.getAttribute('visible'),
+                node.getAttribute('timestamp'),
+                node.getAttribute('value_name_0'),
+                node.getAttribute('value_name_1')
+            )
+        });
+
+        return this.cache.systemVariables;
     }
 }
 

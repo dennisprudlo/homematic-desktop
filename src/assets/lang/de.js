@@ -57,6 +57,14 @@ export default {
         inFunction: 'in {favorite}'
     },
 
+    systemVariables: {
+        defaults: {
+            presence: 'Anwesenheit',
+            rainToday: 'Regen Heute',
+            rainTomorrow: 'Regen Morgen'
+        }
+    },
+
     extensions: {
         dreambox: {
             description: 'Mit dieser Erweiterung lassen sich Geräte von einem Dreambox-Receiver schalten. Dafür muss ein Plugin auf dem Receiver installiert werden. Im Anschluss müssen die schaltbaren Geräte ausgewählt und die Auswahl übertragen werden.',

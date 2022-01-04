@@ -57,6 +57,14 @@ export default {
         inFunction: 'in {favorite}'
     },
 
+    systemVariables: {
+        defaults: {
+            presence: 'Presence',
+            rainToday: 'Rain Today',
+            rainTomorrow: 'Rain Tomorrow'
+        }
+    },
+
     extensions: {
         dreambox: {
             description: 'With this extension devices can be controlled from a Dreambox receiver. For this a plugin must be installed on the receiver. Subsequently, the devices to controll must be selected and the selection must be transferred.',

@@ -38,7 +38,7 @@ export default {
         }
     },
     created () {
-        this.functions = xmlapi.functions().then(functions => {
+        xmlapi.functions().then(functions => {
             this.functions = functions;
             if (this.functions.length > 0) {
                 this.selectFunction(this.functions[0])
