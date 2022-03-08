@@ -101,7 +101,7 @@
                 <h4 class="font-semibold">{{ $t('extensions.dreambox.uploadConfigTitle') }}</h4>
                 <ul>
                     <li v-for="message in pluginUploadMessages" :key="message">
-                        {{ message }}
+                        - {{ message }}
                     </li>
                 </ul>
             </div>
@@ -188,13 +188,13 @@ export default {
             });
         },
         async transferSettings () {
-            // const settings = {
-            //     host: this.ftpIp,
-            //     port: this.ftpPort,
-            //     user: this.ftpUser,
-            //     password: this.ftpPassword,
-            //     secure: false
-            // };
+            const settings = {
+                host: this.ftpIp,
+                port: this.ftpPort,
+                user: this.ftpUser,
+                password: this.ftpPassword,
+                secure: false
+            };
 
             this.pluginUploadMessages = [];
 
@@ -231,9 +231,13 @@ export default {
             window.ftp.writeLocal('ext-dreambox-config.json', JSON.stringify(configuration, null, 2), () => {
                 this.pluginUploadMessages.push(t('extensions.dreambox.messages.localFileWritten'));
 
-                // window.ftp.upload(settings, 'ext-dreambox-config.json', `${ this.pluginPath }/resources/config.json`, (step) => {
-                //     this.pluginUploadMessages.push(t('extensions.dreambox.messages.' + step));
-                // });
+                window.ftp.upload(settings, 'ext-dreambox-config.json', `${ this.pluginPath }/config.json`, (step, message) => {
+                    if (step === 'error') {
+                        this.pluginUploadMessages.push(t('extensions.dreambox.messages.error', { message }));
+                    } else {
+                        this.pluginUploadMessages.push(t('extensions.dreambox.messages.' + step));
+                    }
+                });
             });
         }
     }

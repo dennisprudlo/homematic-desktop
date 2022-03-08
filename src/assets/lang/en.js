@@ -92,7 +92,7 @@ export default {
                 localFileWritten: 'The local file has been created. Connecting to the Dreambox...',
                 accessed: 'The connection to the Dreambox was successful. Uploading file...',
                 successful: 'The file was transferred!',
-                error: 'There was an error!'
+                error: 'There was an error: {message} (Is the path to the plugin folder correct?)'
             }
         }
     },
